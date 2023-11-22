@@ -24,7 +24,6 @@ function triangle(arg1, type1, arg2, type2) {
 
   let sideA, sideB, hypotenuse, angleA, angleB;
 
-
   if (
     (type1 === 'leg' && type2 === 'hypotenuse') ||
     (type1 === 'hypotenuse' && type2 === 'leg')
@@ -44,6 +43,26 @@ function triangle(arg1, type1, arg2, type2) {
     hypotenuse = sideA / Math.sin(angleOpposite);
     sideB = Math.sqrt(hypotenuse ** 2 - sideA ** 2);
     angleA = Math.asin(sideA / hypotenuse);
+  } else if (
+    (type1 === 'leg' && type2 === 'adjacent angle') ||
+    (type1 === 'adjacent angle' && type2 === 'leg')
+  ) {
+    sideA = (type1 === 'leg') ? arg1 : arg2;
+    const angleAdjacent = degreesToRadians((type1 === 'adjacent angle') ? arg1 : arg2);
+    angleA = Math.PI / 2 - angleAdjacent;
+    hypotenuse = sideA / Math.cos(angleAdjacent);
+    sideB = Math.sqrt(hypotenuse ** 2 - sideA ** 2);
+    angleB = Math.asin(sideB / hypotenuse);
+  } else if (
+    (type1 === 'hypotenuse' && type2 === 'angle') ||
+    (type1 === 'angle' && type2 === 'hypotenuse')
+  ) {
+    hypotenuse = (type1 === 'hypotenuse') ? arg1 : arg2;
+    const angle = degreesToRadians((type1 === 'angle') ? arg1 : arg2);
+    angleA = Math.asin(sideA / hypotenuse);
+    angleB = Math.PI / 2 - angleA;
+    sideA = hypotenuse * Math.sin(angle);
+    sideB = hypotenuse * Math.cos(angle);
   } else {
     console.log('Error: Invalid combination of types.');
     return 'failed';
@@ -59,6 +78,13 @@ function triangle(arg1, type1, arg2, type2) {
   return 'success';
 }
 
-const result = triangle(60, "opposite angle", 5, "leg");
-const result1 =triangle(7, "leg", 18, "hypotenuse");
-console.log(result);
+// Приклади використання функції
+const result1 = triangle(60, "opposite angle", 5, "leg");
+const result2 = triangle(7, "leg", 18, "hypotenuse");
+const result3 = triangle(3, "leg", 45, "adjacent angle");
+const result4 = triangle(5, "hypotenuse", 30, "angle");
+
+console.log(result1);
+console.log(result2);
+console.log(result3);
+console.log(result4);
