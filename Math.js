@@ -1,4 +1,4 @@
-function triangle(arg1, type1, arg2, type2) {
+ffunction triangle(arg1, type1, arg2, type2) {
   function validateInput(value, type) {
     if (typeof value !== 'number' || value <= 0) {
       return `Invalid value for ${type}`;
@@ -32,7 +32,7 @@ function triangle(arg1, type1, arg2, type2) {
     hypotenuse = (type1 === 'hypotenuse') ? arg1 : arg2;
     sideB = Math.sqrt(hypotenuse ** 2 - sideA ** 2);
     angleA = Math.asin(sideA / hypotenuse);
-    angleB = Math.PI / 2 - angleA;
+    angleB = Math.acos(sideA / hypotenuse);
   } else if (
     (type1 === 'leg' && type2 === 'opposite angle') ||
     (type1 === 'opposite angle' && type2 === 'leg')
@@ -63,6 +63,14 @@ function triangle(arg1, type1, arg2, type2) {
     angleB = Math.PI / 2 - angleA;
     sideA = hypotenuse * Math.sin(angle);
     sideB = hypotenuse * Math.cos(angle);
+  } else if (
+    (type1 === 'leg' && type2 === 'leg')
+  ) {
+    sideA = arg1;
+    sideB = arg2;
+    hypotenuse = Math.sqrt(sideA ** 2 + sideB ** 2);
+    angleA = Math.atan(sideA / sideB);
+    angleB = Math.atan(sideB / sideA);
   } else {
     console.log('Error: Invalid combination of types.');
     return 'failed';
@@ -78,13 +86,6 @@ function triangle(arg1, type1, arg2, type2) {
   return 'success';
 }
 
-// Приклади використання функції
-const result1 = triangle(60, "opposite angle", 5, "leg");
-const result2 = triangle(7, "leg", 18, "hypotenuse");
-const result3 = triangle(3, "leg", 45, "adjacent angle");
-const result4 = triangle(5, "hypotenuse", 30, "angle");
-
-console.log(result1);
-console.log(result2);
-console.log(result3);
-console.log(result4);
+// Приклад використання функції для leg + leg
+const result = triangle(4, "leg", 3, "leg");
+console.log(result);
